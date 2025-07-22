@@ -151,6 +151,8 @@ class ManualPortTurtlebotSerialConnector:
         assert isinstance(transport, TurtlebotReaderThread)
 
         self.__transport = transport
+        self.__protocol.signal_stop_communication()
+        self.__protocol.signal_send_communication_data_length(self.__packet_spec.get_struct_byte_size())
         self.__protocol.signal_start_communication()
         self.transport = self.__transport
 

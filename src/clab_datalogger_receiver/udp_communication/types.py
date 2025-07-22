@@ -79,6 +79,16 @@ class UDPData:
                 return None
         # print(f"received from {addr} : {data}")
         # print(f"received : {data}")
+
+        # FIXME: The Matlab logger does not expect to have the null termination byte 
+        # Indeed the serial-UDP bridge on the TBOT strips it.
+        # On the other hand, this program expects it.
+        # To maintain compatibility with Matlab and the Serial-UDP bridge,
+        # we need to add here the null termination byte.
+        # We should evaluate to fix the Serial-UDP bridge and Matlab instead also to keep
+        # a consistent behavior between Serial and UDP.
+        if not data.endswith(b'\x00'):
+            data += b'\x00'
         return data
 
     @property
