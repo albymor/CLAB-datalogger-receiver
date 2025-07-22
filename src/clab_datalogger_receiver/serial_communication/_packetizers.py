@@ -139,6 +139,11 @@ class TurtlebotThreadedConnection(SerialThreadedRecvTx):
     def signal_stop_communication(self):
         """Instruct the STM to start sendind data."""
         return self.send_data(self.STOP_DATA_TOKEN)
+    
+    def signal_send_communication_data_length(self, length: int):
+        """Signal the STM to send the data length."""
+        # to uint8  
+        return self.send_data(length.to_bytes(1, 'big'))
 
     def _validate_package(self, packet: bytes) -> Tuple[bool, bytes | None]:
         valid, data = super()._validate_package(packet)
